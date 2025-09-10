@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beverage Hub - Your Daily Sip</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Custom styles for the dark theme and animations */
+        body {
+            background-color: #111827; /* Dark Gray */
+            color: #F3F4F6; /* Light Gray */
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Hero Carousel Animation */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 400px; /* Adjust height as needed */
+            overflow: hidden;
+            border-radius: 0.75rem;
+        }
+        .carousel-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            animation: carousel-fade 18s infinite;
+        }
+        .carousel-slide:nth-child(1) { animation-delay: 0s; }
+        .carousel-slide:nth-child(2) { animation-delay: 6s; }
+        .carousel-slide:nth-child(3) { animation-delay: 12s; }
+
+        @keyframes carousel-fade {
+            0% { opacity: 0; transform: scale(1.05); }
+            16.66% { opacity: 1; transform: scale(1); }
+            33.33% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0; transform: scale(1.05); }
+            100% { opacity: 0; }
+        }
+
+        /* Custom scrollbar for a better look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1F2937;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4F46E5;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6366F1;
+        }
+        
+        /* Modal and Sidebar transitions */
+        .modal, .cart-sidebar, .cart-overlay {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.2), 0 4px 6px -2px rgba(79, 70, 229, 0.1);
+        }
+
+        .cart-sidebar {
+             transition: transform 0.3s ease-in-out;
+        }
+        
+        /* Animation for adding item to cart */
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .cart-pop {
+            animation: pop 0.3s ease-in-out;
+        }
+
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Hero Section -->
+    <header class="bg-gray-900/50 backdrop-blur-lg sticky top-0 z-40">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-white">
+                <i class="fas fa-mug-hot mr-2 text-indigo-400"></i>
+                Beverage Hub
+            </div>
+            <ul class="flex space-x-6 text-gray-300">
+                <li><a href="#products" class="hover:text-indigo-400 transition">Products</a></li>
+                <li><a href="#about" class="hover:text-indigo-400 transition">About Us</a></li>
+                <li><a href="#" id="nav-cart-link" class="hover:text-indigo-400 transition">Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="relative overflow-hidden pt-16 pb-24">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="text-center lg:text-left">
+                    <h1 class="text-4xl md:text-6xl font-bold leading-tight text-white mb-4">
+                        Discover Your Perfect <span class="text-indigo-400">Sip</span>.
+                    </h1>
+                    <p class="text-lg text-gray-400 mb-8">
+                        From energizing morning coffees to refreshing afternoon coolers, find the perfect beverage to elevate your day.
+                    </p>
+                    <a href="#products" class="bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-indigo-700 transition-all duration-300 transform hover:scale-105">
+                        Explore Drinks
+                    </a>
+                </div>
+                <div class="w-full h-full">
+                    <div class="carousel-container shadow-2xl shadow-indigo-900/20">
+                        <div class="carousel-slide" style="background-image: url('https://placehold.co/800x600/111827/FFFFFF?text=Iced+Latte');"></div>
+                        <div class="carousel-slide" style="background-image: url('https://placehold.co/800x600/111827/FFFFFF?text=Matcha+Tea');"></div>
+                        <div class="carousel-slide" style="background-image: url('https://placehold.co/800x600/111827/FFFFFF?text=Berry+Smoothie');"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Main Section - Products -->
+    <main id="products" class="py-20 bg-gray-900">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-12">Our Signature Beverages</h2>
+            <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Product cards will be injected here by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-20">
+        <div class="container mx-auto px-6">
+             <h2 class="text-3xl font-bold text-center mb-8">About Beverage Hub</h2>
+             <p class="max-w-3xl mx-auto text-center text-gray-400 leading-relaxed">
+                Beverage Hub was founded with a simple mission: to provide high-quality, delicious, and refreshing drinks for every moment of the day. We believe that a great beverage can do more than just quench thirst—it can inspire, energize, and bring people together. We source the finest ingredients and craft each drink with passion and precision. Thank you for being a part of our journey.
+             </p>
+        </div>
+    </section>
+    
+    <!-- Floating Cart Button -->
+    <button id="floating-cart-btn" class="fixed bottom-6 right-6 bg-indigo-600 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg hover:bg-indigo-700 transition-all duration-300 z-50 transform hover:scale-110">
+        <i class="fas fa-shopping-cart text-2xl"></i>
+        <span id="cart-count-badge" class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">0</span>
+    </button>
+    
+    <!-- Cart Overlay -->
+    <div id="cart-overlay" class="cart-overlay fixed inset-0 bg-black bg-opacity-60 z-40 opacity-0 pointer-events-none"></div>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-sidebar" class="cart-sidebar fixed top-0 right-0 h-full w-full max-w-sm bg-gray-900/80 backdrop-blur-md shadow-2xl z-50 transform translate-x-full flex flex-col">
+        <div class="flex justify-between items-center p-6 border-b border-gray-700">
+            <h3 class="text-xl font-semibold">Your Cart</h3>
+            <button id="close-cart-btn" class="text-gray-400 hover:text-white transition">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+        </div>
+        <div id="sidebar-cart-items" class="flex-grow p-6 overflow-y-auto">
+            <!-- Cart items will be injected here -->
+             <p class="text-gray-400">Your cart is empty.</p>
+        </div>
+        <div class="p-6 border-t border-gray-700 bg-gray-900">
+            <div class="flex justify-between items-center text-2xl font-bold mb-4">
+                <span>Total:</span>
+                <span>₹<span id="sidebar-cart-total">0</span></span>
+            </div>
+            <button id="payment-btn" class="bg-green-600 text-white w-full font-bold py-3 px-6 rounded-lg hover:bg-green-700 transition duration-300 disabled:bg-gray-500 disabled:cursor-not-allowed" disabled>
+                <i class="fas fa-lock mr-2"></i> Proceed to Payment
+            </button>
+        </div>
+    </div>
+
+
+    <!-- QR Code Payment Modal -->
+    <div id="payment-modal" class="modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 opacity-0 pointer-events-none transform scale-95">
+        <div class="bg-gray-800 rounded-lg p-8 shadow-2xl w-full max-w-sm text-center transform transition-transform duration-300">
+            <h2 class="text-2xl font-bold mb-4">Complete Your Payment</h2>
+            <p class="text-gray-400 mb-6">Scan the QR code below with your payment app.</p>
+            <img src="https://placehold.co/300x300/ffffff/111827?text=Scan+Me" alt="Dummy QR Code" class="mx-auto rounded-lg mb-6 border-4 border-gray-700">
+            <button id="close-modal-btn" class="bg-red-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-700 transition duration-300">
+                Close
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const products = [
+                { id: 1, name: 'Classic Iced Coffee', price: 360, image: 'https://placehold.co/600x400/1e293b/ffffff?text=Iced+Coffee' },
+                { id: 2, name: 'Creamy Matcha Latte', price: 440, image: 'https://placehold.co/600x400/1e293b/ffffff?text=Matcha+Latte' },
+                { id: 3, name: 'Tropical Mango Smoothie', price: 480, image: 'https://placehold.co/600x400/1e293b/ffffff?text=Mango+Smoothie' },
+                { id: 4, name: 'Sparkling Berry Lemonade', price: 380, image: 'https://placehold.co/600x400/1e293b/ffffff?text=Berry+Lemonade' },
+                { id: 5, name: 'Rich Hot Chocolate', price: 400, image: 'https://placehold.co/600x400/1e293b/ffffff?text=Hot+Chocolate' },
+                { id: 6, name: 'Zen Green Tea', price: 280, image: 'https://placehold.co/600x400/1e293b/ffffff?text=Green+Tea' }
+            ];
+
+            const productList = document.getElementById('product-list');
+            const paymentBtn = document.getElementById('payment-btn');
+            const paymentModal = document.getElementById('payment-modal');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            
+            // New Cart UI Elements
+            const floatingCartBtn = document.getElementById('floating-cart-btn');
+            const cartSidebar = document.getElementById('cart-sidebar');
+            const cartOverlay = document.getElementById('cart-overlay');
+            const closeCartBtn = document.getElementById('close-cart-btn');
+            const navCartLink = document.getElementById('nav-cart-link');
+            const cartItemsContainer = document.getElementById('sidebar-cart-items');
+            const cartTotalEl = document.getElementById('sidebar-cart-total');
+            const cartCountBadge = document.getElementById('cart-count-badge');
+            
+            let cart = [];
+
+            // 1. Render Products
+            function renderProducts() {
+                productList.innerHTML = '';
+                products.forEach(product => {
+                    const productCard = `
+                        <div class="product-card bg-gray-800 rounded-lg overflow-hidden shadow-lg border border-gray-700">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold mb-2">${product.name}</h3>
+                                <p class="text-indigo-400 text-2xl font-semibold mb-4">₹${product.price}</p>
+                                <button data-id="${product.id}" class="add-to-cart-btn bg-indigo-600 text-white w-full font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 transition duration-300">
+                                    <i class="fas fa-cart-plus mr-2"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    productList.innerHTML += productCard;
+                });
+            }
+
+            // 2. Add to Cart Logic
+            function addToCart(productId) {
+                const product = products.find(p => p.id === productId);
+                const cartItem = cart.find(item => item.id === productId);
+
+                if (cartItem) {
+                    cartItem.quantity++;
+                } else {
+                    cart.push({ ...product, quantity: 1 });
+                }
+                
+                // Animate cart button
+                floatingCartBtn.classList.add('cart-pop');
+                floatingCartBtn.addEventListener('animationend', () => {
+                    floatingCartBtn.classList.remove('cart-pop');
+                }, {once: true});
+
+                updateCart();
+            }
+
+            // 3. Update Cart Display
+            function updateCart() {
+                cartItemsContainer.innerHTML = '';
+                let total = 0;
+                let totalItems = 0;
+
+                if (cart.length === 0) {
+                    cartItemsContainer.innerHTML = '<p class="text-gray-400">Your cart is empty.</p>';
+                    paymentBtn.disabled = true;
+                } else {
+                    cart.forEach(item => {
+                        total += item.price * item.quantity;
+                        totalItems += item.quantity;
+                        const cartItemEl = `
+                            <div class="flex justify-between items-center py-3 border-b border-gray-800">
+                                <div>
+                                    <p class="font-semibold">${item.name}</p>
+                                    <p class="text-sm text-gray-400">₹${item.price} x ${item.quantity}</p>
+                                </div>
+                                <span class="font-bold text-indigo-400">₹${(item.price * item.quantity)}</span>
+                            </div>
+                        `;
+                        cartItemsContainer.innerHTML += cartItemEl;
+                    });
+                    paymentBtn.disabled = false;
+                }
+                
+                cartTotalEl.innerText = total;
+                cartCountBadge.innerText = totalItems;
+            }
+            
+            // 4. Cart Sidebar Logic
+            function openCart() {
+                cartSidebar.classList.remove('translate-x-full');
+                cartOverlay.classList.remove('opacity-0', 'pointer-events-none');
+            }
+
+            function closeCart() {
+                cartSidebar.classList.add('translate-x-full');
+                cartOverlay.classList.add('opacity-0', 'pointer-events-none');
+            }
+
+
+            // 5. Modal Logic
+            function showModal() {
+                paymentModal.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+                paymentModal.classList.add('opacity-100', 'pointer-events-auto', 'scale-100');
+            }
+
+            function hideModal() {
+                paymentModal.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+                paymentModal.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
+            }
+
+            // Event Listeners
+            productList.addEventListener('click', (e) => {
+                if (e.target.closest('.add-to-cart-btn')) {
+                    const button = e.target.closest('.add-to-cart-btn');
+                    const productId = parseInt(button.getAttribute('data-id'));
+                    addToCart(productId);
+                }
+            });
+
+            paymentBtn.addEventListener('click', showModal);
+            closeModalBtn.addEventListener('click', hideModal);
+            
+            // Cart Sidebar Event Listeners
+            floatingCartBtn.addEventListener('click', openCart);
+            closeCartBtn.addEventListener('click', closeCart);
+            cartOverlay.addEventListener('click', closeCart);
+            navCartLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                openCart();
+            });
+
+            paymentModal.addEventListener('click', (e) => {
+                // Close modal if clicking on the background overlay
+                if (e.target.id === 'payment-modal') {
+                    hideModal();
+                }
+            });
+
+            // Initial Setup
+            renderProducts();
+            updateCart();
+        });
+    </script>
+</body>
+</html>
